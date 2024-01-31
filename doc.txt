@@ -1,0 +1,216 @@
+********************************************************************
+Customer-CRUD-Application Backend APIs By using 
+--------------Technologies Used------------
+Java Spring-Boot Framework(Spring Security,Spring jpa,jwt,lombok,Spring web) 
+and MySQL Database & Apache Tomcat Server
+
+--------------APIs-----------------
+__________________________________________
+1-Create new User (Post Method)
+http://localhost:8080/auth/signup
+_________________________________________________________
+2-SignIn/Login User (Post Method)
+http://localhost:8080/auth/signin
+_________________________________________________________
+3-Create new Customer (Post Method)
+http://localhost:8080/api/
+_________________________________________________________
+4-Fetch all Customer using criteria builder (Get Method)
+http://localhost:8080/customer/getCustomers
+_________________________________________________________
+5-Fetch Customer by id (Get Method)
+http://localhost:8080/customer/searchByID/
+_________________________________________________________
+6-Delete Customer by id (Delete Method)
+http://localhost:8080/customer/deleteCustomer/
+_________________________________________________________
+7-Update Customer Details by id (Put Method)
+http://localhost:8080/customer/updateCustomer/
+
++++++---------------+++++-------++++-------------------- ++++++
+
+Note : all APIs are tested,by using Postman.
+-------------------------------------------------------------------------------------------------------------------
+1. First all Create new user by using 1 API which is define above and send email,password in request body of Postman
+{
+    "password":"123",
+    "email":"ravikantpandey@gmail.com"
+}
+
+now you will get jwt token after create user id successfully.
+{
+token="eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDY2MDIyNTMsImV4cCI6MTcwNjY4ODY1MywiZW1haWwiOiJyYXZpQGdtYW
+lsLmNvbSJ9.mpRLTWVayUhXmxu2TU7wHYpvpHi1VndckzvCmfoqQe8",
+status=true
+}
+-------------------------------------------------------------------------------------------------------------------
+2. If you want signin use 2 API which is define above and send email,password in request body of postman
+{
+    "password":"123",
+    "email":"ravikantpandey@gmail.com"
+}
+
+now you will get jwt token after signin successfully
+{
+token="eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDY2MDIyNTMsImV4cCI6MTcwNjY4ODY1MywiZW1haWwiOiJyYXZpQGdtYW
+lsLmNvbSJ9.mpRLTWVayUhXmxu2TU7wHYpvpHi1VndckzvCmfoqQe8",
+status=true
+}
+-------------------------------------------------------------------------------------------------------------------
+3. after signin or creating new user if you want call any other api add jwt token in 
+postman-->Authorization-->Bearer Token-->Token-->paste token
+
+------------------------------------------------------------------------------------------------------------------
+4. now you can create,fetch,delete and update any customer by other api.
+
+------------------------------------------------------------------------------------------------------------------
+5. for create new customer by using 3 API and use jwt token in 
+(postman-->Authorization-->Bearer Token-->Token-->paste token)and send customer details in Body->raw->json
+{
+    "firstName":"Ravikant",
+    "lastName":"Pandey",
+    "email":"ravikant@gamil.com",
+    "city":"Noida",
+    "address":"Sector 16 Noida UP",
+    "phone":"9023238504",
+    "state":"UP",
+    "street":"Sector-16"
+}
+
+*if email already exist then you get error "customer already exist".
+*if any column is empty the you get error "please fill all details like email etc".
+------------------------------------------------------------------------------------------------------------------
+6. for fetch all customer by criteriabuilder (searchBy,search,sortBy,sortOrder,firstName,email,city,itemsPerPage) 
+by using 4 API and use jwt token in 
+postman-->Authorization-->Bearer Token-->Token-->paste token
+
+exp:http://localhost:8080/customer/getCustomers?itemsPerPage=2&currentPage=1
+
+result:{
+    "status": false,
+    "message": "TotalItemsFind",
+    "object": [
+        {
+            "id": 1,
+            "firstName": "Ravi",
+            "lastName": "Pandey",
+            "street": "324ds",
+            "address": "mahulani",
+            "city": "sdr",
+            "state": "up",
+            "email": "ravi@gamil.com",
+            "phone": "83284434"
+        },
+        {
+            "id": 2,
+            "firstName": "Adaresh",
+            "lastName": "Pandey",
+            "street": "324ds",
+            "address": "mahulani",
+            "city": "sdr",
+            "state": "up",
+            "email": "adaresh@gamil.com",
+            "phone": "9026045604"
+        }
+    ],
+    "totalItems": 3
+}
+
+-----------------------------------------------------------------------------------------
+7. for fetch customer by id using 5 API and use jwt token in 
+postman-->Authorization-->Bearer Token-->Token-->paste token
+
+exp: http://localhost:8080/customer/searchByID/1
+
+resule:{
+    "id": 1,
+    "firstName": "Ravikant",
+    "lastName": "Pandey",
+    "street": "324ds",
+    "address": "mahulani",
+    "city": "sdr",
+    "state": "up",
+    "email": "ravi@gamil.com",
+    "phone": "8328443445"
+}
+
+-------------------------------------------------------------------------------------------
+8.for delete any customer by id using 6 API and use jwt token in 
+postman-->Authorization-->Bearer Token-->Token-->paste token
+
+exp:http://localhost:8080/customer/deleteCustomer/2
+
+result:Customer Deleted Successfully..
+
+-------------------------------------------------------------------------------------------
+9.for update any customer by id using 7 API and use jwt token in 
+(postman-->Authorization-->Bearer Token-->Token-->paste token)and send customer new details in Body->raw->json
+
+exp: http://localhost:8080/customer/updateCustomer/1
+{
+    "firstName":"adaresh",
+    "lastName":"rei",
+    "email":"ravi@gamil.com",
+    "city":"ef",
+    "address":"df",
+    "phone":"83284434",
+    "state":"up",
+    "street":"324ds"
+}
+
+result: {
+    "id": 1,
+    "firstName": "adaresh",
+    "lastName": "rei",
+    "street": "324ds",
+    "address": "df",
+    "city": "ef",
+    "state": "up",
+    "email": "ravi@gamil.com",
+    "phone": "83284434"
+}
+
+**************************************************************************************
+Frontend (Angular) for backend integration
+
+*use Angular js for frontend and integrate backend APIs
+by creating new angular js application 
+then
+*create modules
+->auth model
+->customer module
+
+*create dto/model
+->user.ts
+->customer.ts
+add use details which you used in backend entity/model.
+like user.model.ts file in
+
+export class User {
+password:string;
+email:string;
+}
+
+*in auth module create two components
+->login/signin component
+->signup/register component
+after create these components integrate user APIs 
+for login integration use API 2 which is define above
+for signup integration use API 1 which is define above
+
+*in customer module create 1 component
+->dasboard component for show all customers and with pagination (search,sort).
+*create some buttons for create new customer,delete customer,update customer,sort etc.
+*for create new customer create a popup where you can create new customer after click on create button.
+*for update new customer create a popup where you can update customer details after click on update button.
+*for delete customer after click on delete button.
+*for sort customer details click on sort button as-asc,desc
+
+Note:
+*for make perfect ui use Bootstrap CDN and add in index.html file of you angular application.
+*if you want create service file in angular you can create for integration backend then integrate in your componet like-
+authService.service.ts-->signin.component.ts
+
+
+
+
